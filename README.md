@@ -32,13 +32,13 @@ Session history is stored in SQLite and shown through the history pages inside t
 
 - Yoga session duration
 - Pose recognition for:
-	- T Pose
-	- Virabhadrasana II
-	- Vrikshasana
-	- Adho Mukha Svanasana
-	- Uttanasana
-	- Utkatasana
-	- Urdhva Hastasana
+  - T Pose
+  - Virabhadrasana II
+  - Vrikshasana
+  - Adho Mukha Svanasana
+  - Uttanasana
+  - Utkatasana
+  - Urdhva Hastasana
 
 ### Exam Mode
 
