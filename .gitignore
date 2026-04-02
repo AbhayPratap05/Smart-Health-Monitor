@@ -1,2 +1,26 @@
-mp_env/
+# macOS
 .DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+mp_env/
+.venv/
+venv/
+env/
+ENV/
+
+# Django / local runtime data
+db.sqlite3
+*.sqlite3
+
+# Local vector database / embeddings
+smart_health/health_monitor_db/
+
+# Logs and local env files
+*.log
+.env
+.env.*

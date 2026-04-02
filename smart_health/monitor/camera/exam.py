@@ -2,6 +2,7 @@ import cv2
 import mediapipe as mp
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
+from mediapipe import Image, ImageFormat
 import numpy as np
 import time
 import threading
@@ -285,7 +286,7 @@ class ExamCamera(VideoCamera):
         
         try:
             # Convert frame to MediaPipe Image
-            mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+            mp_image = Image(image_format=ImageFormat.SRGB, data=cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
             
             # Detect faces
             detection_result = self.detector.detect(mp_image)
