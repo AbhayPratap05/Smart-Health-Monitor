@@ -13,6 +13,10 @@ It also includes:
 - a `Chatbot` powered by local Ollama models for wellness and session-related questions
 - a `History` page for previously saved weekday and yoga sessions
 
+## Access Draft Research Report
+
+https://docs.google.com/document/d/1_6lzPwtapeNzdi1CD5ztknLiEPz-RSHF/edit?usp=sharing&ouid=103688610499996797996&rtpof=true&sd=true
+
 ## Features
 
 ### Weekday Mode
