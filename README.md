@@ -63,7 +63,7 @@ It also includes:
 
 ## Tech Stack
 
-- Django 4.2
+- Django 5.2
 - OpenCV
 - MediaPipe
 - NumPy
@@ -105,7 +105,7 @@ Smart Health Monitor/
 
 Before running the project, make sure you have:
 
-- Python 3.10 or newer
+- Python 3.10.x
 - A working webcam
 - `pip`
 - Ollama installed locally
@@ -114,37 +114,67 @@ For Ollama installation, see: https://ollama.com/download
 
 ## Setup
 
+The most reliable setup for this project is to create a fresh virtual environment with Python 3.10. MediaPipe is the strict dependency here: using a newer Python version can easily cause install failures or incompatible wheels.
+
+## macOS Setup
+
+These steps are recommended for macOS. They are especially important on a new Mac where the default `python3` may be too new for MediaPipe.
+
 ### 1. Clone the repository
 
 ```bash
 git clone <your-repo-url>
-cd "Smart Health Monitor"
+cd Smart-Health-Monitor
 ```
 
-### 2. Create and activate a virtual environment
+### 2. Install Python 3.10
 
-macOS/Linux:
+Using Homebrew:
 
 ```bash
-python3 -m venv .venv
+brew install python@3.10
+```
+
+Confirm the version:
+
+```bash
+$(brew --prefix python@3.10)/bin/python3.10 --version
+```
+
+Expected output should be Python 3.10.x. The tested environment used Python 3.10.19.
+
+### 3. Create and activate a virtual environment
+
+From the repository root:
+
+```bash
+$(brew --prefix python@3.10)/bin/python3.10 -m venv .venv
 source .venv/bin/activate
 ```
 
-Windows PowerShell:
-
-```powershell
-python -m venv .venv
-.venv\Scripts\Activate.ps1
-```
-
-### 3. Install Python dependencies
+Confirm the active Python:
 
 ```bash
-pip install --upgrade pip
+python --version
+which python
+```
+
+### 4. Install Python dependencies
+
+```bash
+python -m pip install --upgrade pip
 pip install -r smart_health/requirements.txt
 ```
 
-### 4. Start Ollama and pull the required models
+The pinned versions are based on the working Mac environment:
+
+- Django 5.2.9
+- MediaPipe 0.10.21
+- NumPy 1.26.4
+- OpenCV contrib 4.8.0.76
+- pyttsx3 2.99
+
+### 5. Start Ollama and pull the required models
 
 Run Ollama in one terminal:
 
@@ -159,24 +189,32 @@ ollama pull llama3.2
 ollama pull nomic-embed-text
 ```
 
+Verify that Ollama can be reached and that both models are installed:
+
+```bash
+ollama list
+```
+
 Notes:
 
 - `llama3.2` is used for chatbot responses
 - `nomic-embed-text` is used for embeddings in the Chroma vector store
+- Django imports the chatbot during startup, so `manage.py migrate`, `manage.py check`, and `manage.py runserver` can fail if Ollama is not running or if these models are missing.
+- If `ollama list` fails, fix Ollama first before running any Django command.
 
-### 5. Move into the Django project directory
+### 6. Move into the Django project directory
 
 ```bash
 cd smart_health
 ```
 
-### 6. Apply migrations
+### 7. Apply migrations
 
 ```bash
 python manage.py migrate
 ```
 
-### 7. Run the development server
+### 8. Run the development server
 
 ```bash
 python manage.py runserver
@@ -187,6 +225,76 @@ Open the app at:
 ```text
 http://127.0.0.1:8000/
 ```
+
+When the browser asks for camera access, allow it. On macOS you may also need to allow camera and microphone access for Terminal, Python, or your IDE in System Settings.
+
+## Windows Setup
+
+Windows has not been fully tested for this project yet, so treat these as expected setup steps rather than a guaranteed supported path.
+
+### 1. Install Python 3.10
+
+Install 64-bit Python 3.10 from https://www.python.org/downloads/release/python-310/.
+
+During installation, enable:
+
+- `Add python.exe to PATH`
+- `pip`
+
+Confirm the version in PowerShell:
+
+```powershell
+python --version
+```
+
+### 2. Clone the repository
+
+```powershell
+git clone <your-repo-url>
+cd Smart-Health-Monitor
+```
+
+### 3. Create and activate a virtual environment
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+If PowerShell blocks activation, run:
+
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+.\.venv\Scripts\Activate.ps1
+```
+
+### 4. Install dependencies
+
+```powershell
+python -m pip install --upgrade pip
+pip install -r smart_health\requirements.txt
+```
+
+### 5. Start Ollama and run Django
+
+Install Ollama for Windows from https://ollama.com/download, then run:
+
+```powershell
+ollama pull llama3.2
+ollama pull nomic-embed-text
+ollama list
+cd smart_health
+python manage.py migrate
+python manage.py runserver
+```
+
+Open:
+
+```text
+http://127.0.0.1:8000/
+```
+
+Windows note: OpenCV, MediaPipe, webcam permissions, and `pyttsx3` voice output can behave differently on Windows. If installation fails, first confirm that Python is 3.10 64-bit and that the virtual environment is active.
 
 ## Using the App
 
